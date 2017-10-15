@@ -98,6 +98,73 @@
             var um = UM.getEditor('myEditor');
             // ????????
             $('#nickname')[0].focus();
+            
+            //Create a mew WebSocket Object
+            var socket = new Websocket(
+            		'ws://${pageContext.request.getServerName()}:${pageContext.request.getServerPort()}${pageContext.request.contextPath}/websocket');
+            
+            socket.onmessage = function(event){
+            	addMessage(event.data);
+            }
+            
+            //Actions performed whent the send button is pressed
+            $('#send').on('click', function(){
+            	var nick_name = $('#nickname').val();
+            	
+            	if(!um.hasContents()){ //Check whether the editor is empty
+            		//focus on the editor with shaking effects
+            		
+            		um.focus();
+            		$('.edui-container').addClass('am-animation-shake');
+            		
+            		//remove shaking effects after 1 second
+            		setTimeout("$('.edui-container').removeClass('am-animation-shake')))", 1000);
+        
+            	}else if(nick_name = ""){ //Check whether the nick name is empty
+            		//focus on the nick name box with shaking effects
+            		
+            		$('#nickname')[0].focus();
+            		$('#message-input-nickname').addClass('am-animation-shake');
+            		
+            		//remove shaking effects after 1 second
+            		setTimeout("$('#message-input-container').removeClass('am-animation-shake')))", 1000);
+            		
+               	}else{
+               		
+               		socket.send(JSON.stringfy({
+               				content: um.getContent(),
+               				nickname: nickname
+               				}));
+               		
+               		//empty the messagebox
+               		um.setContent("");
+               		um.focus();
+               	}
+            });
+  			
+            
+            //Append the message to Chat-Content
+            function addMessage(message){
+            	
+            	message = JSON.parse(message);
+			
+            	var messageItem = '<li class=' 
+            		+ (message.isSelf ? '"am-comment-flip"' : '"am-comment"')
+            		+'>'
+            		+ '<a href="javascript:void(0)"><img src="assets/images/">'
+            		+ (message.isSelf? 'self.png' : 'others.jpg')
+            		+ '" alt="" class="am-comment-avatar" width="48" height="48"/></a>'
+                    + '<div class="am-comment-main"><header class="am-comment-hd"><div class="am-comment-meta">'
+                    + '<a href="javascript:void(0)" class="am-comment-author">'
+                    + message.nickname + '</a> <time>' + message.date
+                    + '</time></div></header>'
+                    + '<div class="am-comment-bd">' + message.content
+                    + '</div></div></li>';
+                    $(messageItem).appendTo('#message-list');
+                 
+                 //Scroll to the bottom
+                 $(".chat-content-container").scrollTop($(".chat-content-container")[0].scrollHeight);
+            }
         });
     </script>
 </body>
