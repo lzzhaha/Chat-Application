@@ -1,0 +1,6 @@
+INDEX VERSION 1.4+C:\wamp64\www\chatroom\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+3281553746.index
+1869967683.index
+2886879805.index
+3039737025.index
+3710846732.index

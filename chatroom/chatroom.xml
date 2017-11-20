@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<chatroom>
+  <users><user name="ads"/></users>
+  <messages><message name="ads" color="green">asd</message><message name="ads" color="blue">asdas</message><message name="ads" color="red">asc zx zx</message></messages>
+</chatroom>
