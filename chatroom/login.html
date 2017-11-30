@@ -15,11 +15,13 @@
             } catch (e) { }
         }
         
+     
         //username input checking
        function checkInput() {
             //username cannot be empty
             var name = document.getElementById("name").value;
            
+            var picture = document.getElementById("picture").value;
             
             if(name == "" || name == null){
                 alert("Please enter a name");
@@ -30,6 +32,16 @@
                 return false;
             }
 
+
+            if(picture == null || picture == ""){
+                
+                alert("You must upload a picture before logging!");
+                return false;
+            }else if(!picture.match(/.(jpg|jpeg|png|gif)$/i)){
+                
+                alert("The allowed types are jpg, jpeg, png, gif!");
+                return false;
+            }
             return true;
 
            
@@ -39,11 +51,15 @@
     </head>
 
     <body onload="clearMessage()">
-        <form method="post" action="login.php" onsubmit="javascript:checkInput()">
+        <form method="post" action="login.php" onsubmit="return checkInput()" enctype="multipart/form-data">
             <table border="0" cellpadding="5" cellspacing="0">
                 <tr>
                     <td>Please enter your user name:</td>
                     <td><input class="text" name="name" id="name" type="text" size="20" maxlength="10" /></td>
+                </tr>
+                <tr>
+                    <td>Please upload a picture:</td>
+                    <td><input class="file" name="picture" id="picture" type="file" size="20" maxlength="30" /></td>
                 </tr>
                 <tr align="center">
                     <td colspan="2"><input class="button" type="submit" value="Go!" style="width: 150px" /></td>

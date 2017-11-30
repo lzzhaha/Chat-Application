@@ -77,6 +77,7 @@ print "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
                     xmlDoc = parser.parseFromString(request.responseText, "text/xml");
                 }
                 datasize = request.responseText.length;
+                console.log(xmlDoc);
                 updateChat(xmlDoc);
                 getUpdate();
             }
@@ -85,49 +86,118 @@ print "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
         function updateChat(xmlDoc) {
 
             //point to the message nodes
+            
             var messages = xmlDoc.getElementsByTagName("messages")[0];
-            console.log(messages);
+        
             // create a string for the messages
 	    /* Add your code here */
             //debugger;
             if(messages.childNodes.length > 0){
-                console.log("child Nodes\n");
-                console.log(messages.childNodes);
+                
                 var nameStr = messages.childNodes[lastMsgID].getAttribute("name");	
                 var contentStr = messages.childNodes[lastMsgID].textContent;
                 var color = messages.childNodes[lastMsgID].getAttribute("color");
                 showMessage(nameStr, contentStr, color);
                 lastMsgID++;
-            }else{
-                
-                
             }
         }
-
+        
+        
+        
         function showMessage(nameStr, contentStr, color){
                
+                
+                
+                
                 var node = document.getElementById("chattext");
+                
                 // Create the name text span
                 var nameNode = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
 
                 // Set the attributes and create the text
                 nameNode.setAttribute("x", 100);
                 nameNode.setAttribute("dy", 20);
+                
                 nameNode.appendChild(document.createTextNode(nameStr));
 
                 // Add the name to the text node
                 node.appendChild(nameNode);
-
+                /*
                 // Create the score text span
                 var contentNode = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
-
+                  
                 // Set the attributes and create the text
                 contentNode.setAttribute("x", 200);
                 contentNode.setAttribute("fill", color);
-                contentNode.appendChild(document.createTextNode(contentStr));
+                *
+                */
+                var plain_start =0;
+                var link_start = 0;
+                var plain = "";
+                var link = "";
+                
+                var end = false;
+                
+                while(!end){
+                    
+                    
+                    
+                    link_start = contentStr.indexOf("http://", start=plain_start);
+                    
+                    console.log("link_start");
+                    console.log(link_start);
+                    
+                    if(link_start == -1){
+                        end = true;
+                        link_start = contentStr.length;
+                    }
+                    
+                    plain = " " + contentStr.substring(plain_start, link_start);
+                    plain_node = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
+                    plain_node.setAttribute("fill", color);
+                    plain_node.appendChild(document.createTextNode(plain));
+                    node.appendChild(plain_node);
+                    
+                    plain_start = contentStr.indexOf(" ", start=link_start);
+                    
+                    console.log("plain_start");
+                    console.log(plain_start);
+                    if(plain_start == -1){
+                        
+                        plain_start = contentStr.length;
+                        
+                    }
+                    link = " " + contentStr.substring(link_start, plain_start);
+                    
+                    
+                    if(link_start != contentStr.length){
+                    //change to link here
+                        link_node = document.createElementNS("http://www.w3.org/2000/svg", "a");
+                       
+                        link_node.setAttribute("href", link);
+                        link_node.setAttribute("fill", color);
+                        link_node.setAttribute("target", "_blank");
+                        link_text = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
+                        link_text.setAttribute("font-size", 12);
+                        link_text.setAttribute("text-decoration", "underline");
+                        link_text.appendChild(document.createTextNode(link));
+                        link_node.appendChild(link_text);
+                        node.appendChild(link_node);
+                    }
+            
+            
+            
+                    
+                }
+                
+                
+                
+                
+                
+                //contentNode.appendChild(document.createTextNode(contentStr));
 
                 // Add the name to the text node
-                node.appendChild(contentNode);
+                //node.appendChild(contentNode);
         }
 
         //]]>

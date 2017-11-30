@@ -51,10 +51,13 @@ print "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
                     
                 </tr>
                 <input type="hidden" name="color" id="color" value="red" />
+                
             </table>
           
             
         </form>
+        
+   
         <div>Choose your color</div>
         <div style="background-color:red;left:0px;height:30px;width:100px" onclick="select('red')"></div>
             <div style="background-color:yellow;left:50px;height:30px;width:100px" onclick="select('yellow')"></div>
@@ -63,7 +66,13 @@ print "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
             <div style="background-color:blue;left:200px;height:30px;width:100px" onclick="select('blue')"></div>
             <div style="background-color:magenta;left:250px;height:30px;width:100px" onclick="select('magenta')"></div>
         <!--logout button-->
-
-
+        
+        
+        
+        <input class="button" type="submit" value="Show Online User List"  style="width: 400px" onclick="window.open('userList.php')"></input>
+        
+         <form action="logout.php" method="post">
+            <input class="button" type="submit" value="log out"  style="width: 200px"></input>
+        </form>
     </body>
 </html>
